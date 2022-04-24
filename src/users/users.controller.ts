@@ -6,7 +6,10 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -26,6 +29,7 @@ export class UsersController {
   }
 
   @Get(':username')
+  @UseGuards(AuthGuard('jwt'))
   findOne(@Param('username') username: string) {
     return this.usersService.findOne(username);
   }

@@ -12,11 +12,15 @@ export class UsersService {
   constructor(@InjectModel('User') private readonly userModel: Model<User>) {}
 
   async create(user: CreateUserDto) {
-    // saltを作る。
+    const salt = await bcrypt.genSalt();
+
     const createdUser = new this.userModel({
       username: user.username,
       email: user.email,
-      password: await bcrypt.hash(user.password, 12),
+      password: await bcrypt.hash(user.password, salt),
+      beginnerStatus: false,
+      htmlStatus: false,
+      tsStatus: false,
     });
     return await createdUser.save();
   }
