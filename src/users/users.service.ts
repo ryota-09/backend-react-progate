@@ -6,6 +6,9 @@ import * as bcrypt from 'bcryptjs';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './interfaces/user.interface';
+import { UpdateBeginnerStatusDto } from './dto/update-beginnerstaus.dto';
+import { UpdateHtmlStatusDto } from './dto/update-htmlstaus.dto';
+import { UpdateTsStatusDto } from './dto/update-tsstaus.dto';
 
 @Injectable()
 export class UsersService {
@@ -39,6 +42,42 @@ export class UsersService {
   async update(username: string, updateUserDto: UpdateUserDto) {
     await this.userModel
       .updateOne({ username: username }, updateUserDto)
+      .exec();
+    const updatedUser = await this.userModel
+      .findOne({ username: username })
+      .exec();
+    return updatedUser;
+  }
+
+  async updateBeginnerStatus(
+    username: string,
+    updateBeginnerStatusDto: UpdateBeginnerStatusDto,
+  ) {
+    await this.userModel
+      .updateOne({ username: username }, updateBeginnerStatusDto)
+      .exec();
+    const updatedUser = await this.userModel
+      .findOne({ username: username })
+      .exec();
+    return updatedUser;
+  }
+
+  async updateHtmlStatus(
+    username: string,
+    updateHtmlStatusDto: UpdateHtmlStatusDto,
+  ) {
+    await this.userModel
+      .updateOne({ username: username }, updateHtmlStatusDto)
+      .exec();
+    const updatedUser = await this.userModel
+      .findOne({ username: username })
+      .exec();
+    return updatedUser;
+  }
+
+  async updateTsStatus(username: string, updateTsStatusDto: UpdateTsStatusDto) {
+    await this.userModel
+      .updateOne({ username: username }, updateTsStatusDto)
       .exec();
     const updatedUser = await this.userModel
       .findOne({ username: username })
