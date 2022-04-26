@@ -18,6 +18,8 @@ export class UsersService {
       username: user.username,
       email: user.email,
       password: await bcrypt.hash(user.password, salt),
+      avatar: '',
+      remarks: '',
       beginnerStatus: false,
       htmlStatus: false,
       tsStatus: false,
@@ -34,11 +36,18 @@ export class UsersService {
     return user;
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(username: string, updateUserDto: UpdateUserDto) {
+    await this.userModel
+      .updateOne({ username: username }, updateUserDto)
+      .exec();
+    const updatedUser = await this.userModel
+      .findOne({ username: username })
+      .exec();
+    return updatedUser;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(username: string) {
+    await this.userModel.deleteOne({ username: username }).exec();
+    return 'DELETE成功';
   }
 }

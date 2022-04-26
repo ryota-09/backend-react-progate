@@ -15,6 +15,14 @@ export const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  avatar: {
+    type: String,
+    required: false,
+  },
+  remarks: {
+    type: String,
+    required: false,
+  },
   beginnerStatus: {
     type: Boolean,
     required: false,
